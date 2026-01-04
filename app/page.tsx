@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
-  const [search, setSearch] = useState("");
+
+  
+  const searchText = useSelector(
+    (state: RootState) => state.search.text
+  );
 
   useEffect(() => {
     fetch("https://dummyjson.com/products")
@@ -14,22 +20,15 @@ export default function Home() {
   }, []);
 
   
-  const filterProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(search.toLowerCase())
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search products..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="search-input"
-      />
       <div className="grid">
-        {filterProducts.length > 0 ? (
-          filterProducts.map((product) => (
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))
         ) : (

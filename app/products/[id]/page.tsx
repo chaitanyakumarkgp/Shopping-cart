@@ -1,23 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../../redux/cartSlice";
+import { addToCart, removeFromCart } from "../../../redux/cartSlice";
 import { RootState } from "../../../redux/store";
 
 export default function ProductDetails() {
   const { id } = useParams();
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const [product, setProduct] = useState<any>(null);
 
-  
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  
   const isAdded = cartItems.some(
     (item: any) => item.id === Number(id)
   );
@@ -28,7 +25,7 @@ export default function ProductDetails() {
       .then(setProduct);
   }, [id]);
 
-  if (!product) return <p>Loading</p>;
+  if (!product) return <p>Loading...</p>;
 
   return (
     <div className="product-details">
@@ -44,10 +41,14 @@ export default function ProductDetails() {
       <h3>₹ {product.price}</h3>
 
       <button
-        disabled={isAdded}
-        onClick={() => dispatch(addToCart(product))}
+        className={isAdded ? "remove-btn" : "add-btn"}
+        onClick={() =>
+          isAdded
+            ? dispatch(removeFromCart(product.id))
+            : dispatch(addToCart(product))
+        }
       >
-        {isAdded ? "Already in Cart" : "Add to Cart"}
+        {isAdded ? "Remove from Cart" : "Add to Cart"}
       </button>
     </div>
   );
