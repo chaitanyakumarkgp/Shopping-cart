@@ -4,13 +4,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useRouter } from "next/navigation";
 import { clearOrder } from "../../redux/orderSlice";
+import { useEffect, useState } from "react";
 
 export default function OrderSuccessPage() {
-  const order = useSelector((state: RootState) => state.order);
   const router = useRouter();
   const dispatch = useDispatch();
 
-  if (order.items.length === 0) {
+  const order = useSelector((state: RootState) => state.order);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  
+  if (!mounted) return null;
+
+  if (!order || !order.items || order.items.length === 0) {
     return (
       <div style={{ textAlign: "center" }}>
         <h3>No order found</h3>
@@ -23,7 +33,7 @@ export default function OrderSuccessPage() {
 
   return (
     <div className="order-success">
-      <h1>Order Placed Successfully 🎉</h1>
+      <h1>Order Placed Successfully</h1>
 
       <div className="invoice">
         <h2>Order Summary</h2>

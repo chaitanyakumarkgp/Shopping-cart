@@ -18,24 +18,30 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function CartPage() {
-  const checkout = loadCheckout();
-
-  const [mounted, setMounted] = useState(false);
-  const [address, setAddress] = useState(checkout.address);
-  const [payment, setPayment] = useState(checkout.payment);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const { items, totalAmount } = useSelector(
     (state: RootState) => state.cart
   );
 
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+  const [address, setAddress] = useState("");
+  const [payment, setPayment] = useState("cod");
 
-  useEffect(() => setMounted(true), []);
+  
+  useEffect(() => {
+    const checkout = loadCheckout();
+    setAddress(checkout.address || "");
+    setPayment(checkout.payment || "cod");
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    saveCheckout(address, payment);
-  }, [address, payment]);
+    if (mounted) {
+      saveCheckout(address, payment);
+    }
+  }, [address, payment, mounted]);
 
   if (!mounted) return null;
 
@@ -57,17 +63,12 @@ export default function CartPage() {
       payment,
     };
 
-    
     dispatch(placeOrder(orderData));
-
-    
     saveOrderToHistory(orderData);
 
-    
     dispatch(clearCart());
     clearCheckout();
 
-    
     router.push("/order-success");
   };
 
