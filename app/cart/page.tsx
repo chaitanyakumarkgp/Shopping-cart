@@ -16,6 +16,7 @@ import {
 } from "../../utils/checkoutCookies";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { loadOrders } from "../../utils/orderCookies";
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -64,10 +65,13 @@ export default function CartPage() {
     };
 
     dispatch(placeOrder(orderData));
+    console.log("orderData",orderData)
     saveOrderToHistory(orderData);
+
 
     dispatch(clearCart());
     clearCheckout();
+    
 
     router.push("/order-success");
   };
@@ -103,7 +107,7 @@ export default function CartPage() {
             className="remove-btn"
             onClick={() => dispatch(removeFromCart(item.id))}
           >
-            Remove
+            Remove 🗑
           </button>
         </div>
       ))}

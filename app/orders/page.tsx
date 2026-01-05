@@ -1,4 +1,7 @@
 "use client";
+export const dynamic = "force-dynamic";
+
+
 
 import { useEffect, useState } from "react";
 import { loadOrders, cancelOrder } from "../../utils/orderCookies";
@@ -10,19 +13,18 @@ export default function OrdersPage() {
 
   
   useEffect(() => {
-    const load = () => setOrders(loadOrders());
+  const load = () => setOrders(loadOrders());
 
-    load(); 
+  load(); 
 
-    
-    window.addEventListener("focus", load);
-    document.addEventListener("visibilitychange", load);
+  window.addEventListener("focus", load);
+  window.addEventListener("visibilitychange", load);
 
-    return () => {
-      window.removeEventListener("focus", load);
-      document.removeEventListener("visibilitychange", load);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener("focus", load);
+    window.removeEventListener("visibilitychange", load);
+  };
+}, []);
 
   const handleCancel = (orderId: number) => {
     if (!confirm("Cancel this order?")) return;

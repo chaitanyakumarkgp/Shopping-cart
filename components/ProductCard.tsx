@@ -35,8 +35,9 @@ export default function ProductCard({ product }: any) {
             : dispatch(addToCart(product))
         }
       >
-        {isAdded ? "Remove from Cart" : "Add to Cart"}
+        {isAdded ? "🗑 Remove" : "🛒 Add to Cart"}
       </button>
+
     </div>
   );
 }

@@ -48,8 +48,9 @@ export default function ProductDetails() {
             : dispatch(addToCart(product))
         }
       >
-        {isAdded ? "Remove from Cart" : "Add to Cart"}
+        {isAdded ? "Remove from Cart ❌ " : "Add to Cart 🛒 "}
       </button>
+
     </div>
   );
 }

@@ -6,6 +6,7 @@ const KEY = "orders";
 export const loadOrders = (): any[] => {
   try {
     const data = Cookies.get(KEY);
+    console.log("data cookies",data)
     if (!data) return [];
 
     const parsed = JSON.parse(data);
@@ -18,16 +19,23 @@ export const loadOrders = (): any[] => {
 
 export const saveOrderToHistory = (order: any) => {
   const existingOrders = loadOrders();
+  console.log("Existing",existingOrders);
 
   const newOrder = {
     ...order,
-    id: Date.now(),
+    id: crypto.randomUUID(),
     date: new Date().toLocaleString(),
   };
+  console.log("New",newOrder);
 
   const updatedOrders = [...existingOrders, newOrder];
 
-  Cookies.set(KEY, JSON.stringify(updatedOrders), { expires: 7 });
+  console.log("updatedOrders",updatedOrders)
+
+  Cookies.set(KEY, JSON.stringify(updatedOrders), {
+    expires: 7,
+    path: "/", 
+  });
 };
 
 

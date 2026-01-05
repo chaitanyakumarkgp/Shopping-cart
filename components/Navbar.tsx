@@ -26,6 +26,7 @@ export default function Navbar() {
     pathname.startsWith("/cart") ||
     pathname.startsWith("/products") ||
     pathname.startsWith("/orders");
+  const searchText = useSelector((state: RootState) => state.search.text);
 
   return (
     <nav className="navbar">
@@ -37,12 +38,27 @@ export default function Navbar() {
 
       
       {!hideSearch && (
-        <input
-          type="text"
-          placeholder="Search products..."
-          onChange={(e) => dispatch(setSearch(e.target.value))}
-        />
-      )}
+  <div className="search-box">
+    <span className="search-icon">🔍</span>
+
+    <input
+      type="text"
+      placeholder="Search products..."
+      value={searchText}
+      onChange={(e) => dispatch(setSearch(e.target.value))}
+    />
+
+    {searchText && (
+      <span
+        className="close-icon"
+        onClick={() => dispatch(setSearch(""))}
+      >
+        ✖
+      </span>
+    )}
+  </div>
+)}
+
 
       <div className="nav-actions">
   <Link

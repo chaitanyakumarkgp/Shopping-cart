@@ -597,3 +597,53 @@ label input[type="radio"] {
   color: #666;
 }
 
+/* Search Box */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box input {
+  width: 260px;
+  padding: 10px 36px 10px 36px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  width: 340px;
+  border-color: #6f42c1;
+  box-shadow: 0 0 6px rgba(111, 66, 193, 0.4);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+.close-icon {
+  position: absolute;
+  right: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #888;
+}
+
+.close-icon:hover {
+  color: #dc3545;
+}
+button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+button span {
+  font-size: 16px;
+}
